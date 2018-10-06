@@ -1,18 +1,53 @@
 import pytest
 
-from sample.SalarySlipGenerator import SalarySlipGenerator
 from sample.Employee import Employee
-from sample.SalarySlip import SalarySlip
+from sample.SalarySlipGenerator import SalarySlipGenerator
 
 
-@pytest.fixture(autouse=True)
-def setup():
-    employee = Employee(1, "John J Doe", 5000)
-    return employee
+@pytest.fixture()
+def setupEmployee5000(request):
+    return Employee(12345, "John J Doe", 5000)
 
-def test_shouldReturnASalarySlipInstance():
-    assert isinstance(SalarySlipGenerator.generateFor(setup), SalarySlip)
+@pytest.fixture()
+def setupEmployee9060(request):
+    return Employee(12345, "John J Doe", 9060)
 
-def test_monthlySalarySlipShouldBe416dot67():
-    salarySlip = SalarySlipGenerator.generateFor(setup)
+@pytest.fixture()
+def setupEmployee12000(request):
+    return Employee(12345, "John J Doe", 12000)
+
+def test_monthlySalarySlipShouldBe416dot67WhenAnnualSalary5000(setupEmployee5000):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee5000)
     assert salarySlip.monthlyGrossSalary == 416.67
+
+def test_nationalInsuranceShouldBeZeroWhenAnnualSalary5000(setupEmployee5000):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee5000)
+    assert salarySlip.nationalInsurance == 0
+
+def test_nationalInsuranceShouldBe10WhenAnnualSalary9060(setupEmployee9060):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee9060)
+    assert salarySlip.nationalInsurance == 10.0
+
+def test_taxPayableShouldBeZeroWhenAnnualSalary9060(setupEmployee9060):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee9060)
+    assert salarySlip.taxPayable == 0
+
+def test_taxFreeAllowanceShouldBeZeroWhenAnnualSalary9060(setupEmployee9060):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee9060)
+    assert salarySlip.taxFreeAllowance == 0
+
+def test_taxableIncomeShouldBeZeroWhenAnnualSalat9060(setupEmployee9060):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee9060)
+    assert salarySlip.taxableIncome == 0
+
+def test_taxPayableShouldBe16do67WhenAnnualSalary12000(setupEmployee12000):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee12000)
+    assert salarySlip.taxPayable == 16.67
+
+def test_taxFreeAllowanceShouldBe916dot67WhenAnnualSalary12000(setupEmployee12000):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee12000)
+    assert salarySlip.taxFreeAllowance == 916.67
+
+def test_taxableIncomeShouldBe83dot33WhenAnnualSalat12000(setupEmployee12000):
+    salarySlip = SalarySlipGenerator.generateFor(setupEmployee12000)
+    assert  salarySlip.taxableIncome == 83.33

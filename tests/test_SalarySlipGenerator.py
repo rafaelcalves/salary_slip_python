@@ -1,9 +1,18 @@
 import pytest
+
 from sample.SalarySlipGenerator import SalarySlipGenerator
+from sample.Employee import Employee
+from sample.SalarySlip import SalarySlip
 
-@pytest.fixture()
+
+@pytest.fixture(autouse=True)
 def setup():
-    assert True
+    employee = Employee(1, "John J Doe", 5000)
+    return employee
 
-def test_shouldCallGenerateFor(setup):
-    SalarySlipGenerator.generateFor(1)
+def test_shouldReturnASalarySlipInstance():
+    assert isinstance(SalarySlipGenerator.generateFor(setup), SalarySlip)
+
+def test_monthlySalarySlipShouldBe416dot67():
+    salarySlip = SalarySlipGenerator.generateFor(setup)
+    assert salarySlip.monthlyGrossSalary == 416.67

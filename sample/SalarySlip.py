@@ -1,3 +1,4 @@
 class SalarySlip:
-    def __init__(self, grossSalary):
-        self.grossSalary = grossSalary
+    def __init__(self, employee, monthlyGrossSalary):
+        self.employee = employee
+        self.monthlyGrossSalary = monthlyGrossSalary

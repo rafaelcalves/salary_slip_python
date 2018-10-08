@@ -1,63 +1,61 @@
 from sample.SalarySlip import SalarySlip
 from sample.TaxHandler import TaxHandler
 from sample.SalarySlipConstans import SalarySlipConstants
+from sample.Utils import Utils
+
 
 class SalarySlipGenerator:
-    @classmethod
-    def generateFor(cls, employee):
+
+    def __init__(self):
+        self.taxHandler = TaxHandler()
+
+    def generateFor(self, employee):
         salarySlip = SalarySlip(employee)
-        salarySlip.monthlyGrossSalary = cls.__calculateMonthlySalary(employee)
-        salarySlip.nationalInsurance = cls.__calculateNationalInsurance(employee.grossSalary)
-        cls.__handleTaxPayable(salarySlip, employee.grossSalary)
+        salarySlip.monthlyGrossSalary = self.__calculateMonthlySalary(employee)
+        self.__handleNationalInsurance(salarySlip, employee.grossSalary)
+        self.__handleTaxPayable(salarySlip, employee.grossSalary)
         return salarySlip
 
-    @classmethod
-    def __calculateMonthlySalary(cls, employee):
-        return TaxHandler.getMonthlyValueFor(employee.grossSalary)
+    def __calculateMonthlySalary(self, employee):
+        return Utils.getMonthlyValueFor(employee.grossSalary)
 
-    @classmethod
-    def __calculateNationalInsurance(cls, annualGrossSalary):
-        natinonalInsurance = 0
-        if TaxHandler.isTaxedForNationalInsurance(annualGrossSalary):
-            if TaxHandler.isTaxedForHigherRate(annualGrossSalary):
-                taxedAmount = TaxHandler.getHigherRateTaxedAmountFor(annualGrossSalary)
-                natinonalInsurance = TaxHandler.applyNationalInsuranceHigherRateToAmount(taxedAmount)
-                taxedAmount = TaxHandler.getNationalInsuranceTaxedAmountFor(SalarySlipConstants.HIGHER_RATE_ROOF)
+    def __handleNationalInsurance(self, salarySlip, annualGrossSalary):
+        if self.taxHandler.nationalInsurance.isTaxed(annualGrossSalary):
+            if self.taxHandler.isTaxedForHigherRate(annualGrossSalary):
+                taxedAmount = self.taxHandler.getHigherRateTaxedAmountFor(annualGrossSalary)
+                salarySlip.nationalInsurance = self.taxHandler.nationalInsurance.applyHigherRateTo(taxedAmount)
+                taxedAmount = self.taxHandler.nationalInsurance.getTaxedAmountFor(SalarySlipConstants.HIGHER_RATE_ROOF)
             else:
-                taxedAmount = TaxHandler.getNationalInsuranceTaxedAmountFor(annualGrossSalary)
+                taxedAmount = self.taxHandler.nationalInsurance.getTaxedAmountFor(annualGrossSalary)
 
-            natinonalInsurance = round(
-                natinonalInsurance + TaxHandler.applyNationalInsuranceLowerRateToAmount(taxedAmount), 2)
-        return natinonalInsurance
+            salarySlip.nationalInsurance = round(salarySlip.nationalInsurance + self.taxHandler.nationalInsurance.applyLowerRateTo(taxedAmount), 2)
 
-    @classmethod
-    def __handleTaxPayable(cls, salarySlip, annualGrossSalary):
-        if TaxHandler.isTaxedForTaxPayable(annualGrossSalary):
-            if TaxHandler.isHigherEarner(annualGrossSalary):
-                cls.__handleHigherEarnerExtraContribution(annualGrossSalary, salarySlip)
-            if TaxHandler.isTaxedForHigherRate(annualGrossSalary):
-                taxedAmount = TaxHandler.getHigherRateTaxedAmountFor(annualGrossSalary)
-                salarySlip.taxPayable = salarySlip.taxPayable + TaxHandler.applyTaxPayableHigherRateToAmount(
-                    taxedAmount)
-                taxedAmount = TaxHandler.getTaxPayableTaxedAmountFor(SalarySlipConstants.HIGHER_RATE_ROOF)
-                cls.__applyTaxPayableToSalarySlip(salarySlip, taxedAmount)
+    def __handleTaxPayable(self, salarySlip, annualGrossSalary):
+        if self.taxHandler.taxPayable.isTaxed(annualGrossSalary):
+            self.applyHigherEarner(annualGrossSalary, salarySlip)
+            if self.taxHandler.isTaxedForHigherRate(annualGrossSalary):
+                taxedAmount = self.taxHandler.getHigherRateTaxedAmountFor(annualGrossSalary)
+                salarySlip.taxPayable = salarySlip.taxPayable + self.taxHandler.taxPayable.applyHigherRateTo(taxedAmount)
+                taxedAmount = self.taxHandler.taxPayable.getTaxedAmountFor(SalarySlipConstants.HIGHER_RATE_ROOF)
+                self.__applyTaxPayableToSalarySlip(salarySlip, taxedAmount)
             else:
-                taxedAmount = TaxHandler.getTaxPayableTaxedAmountFor(annualGrossSalary)
-                cls.__applyTaxPayableToSalarySlip(salarySlip, taxedAmount)
+                taxedAmount = self.taxHandler.taxPayable.getTaxedAmountFor(annualGrossSalary)
+                self.__applyTaxPayableToSalarySlip(salarySlip, taxedAmount)
 
-    @classmethod
-    def __applyTaxPayableToSalarySlip(cls, salarySlip, taxedAmount):
-        salarySlip.taxPayable = salarySlip.taxPayable + TaxHandler.applyTaxPayableLowerRateToAmount(taxedAmount)
-        cls.__applyResultantTaxPayableTaxesTo(salarySlip)
+    def applyHigherEarner(self, annualGrossSalary, salarySlip):
+        if self.taxHandler.isHigherEarner(annualGrossSalary):
+            self.__handleHigherEarnerExtraContribution(annualGrossSalary, salarySlip)
 
-    @classmethod
-    def __applyResultantTaxPayableTaxesTo(cls, salarySlip):
-        monthlyUntaxedRoof = TaxHandler.getMonthlyValueFor(SalarySlipConstants.TaxPayable.UNTAXED_ROOF)
+    def __applyTaxPayableToSalarySlip(self, salarySlip, taxedAmount):
+        salarySlip.taxPayable = round(salarySlip.taxPayable + self.taxHandler.taxPayable.applyLowerRateTo(taxedAmount), 2)
+        self.__applyResultantTaxPayableTaxesTo(salarySlip)
+
+    def __applyResultantTaxPayableTaxesTo(self, salarySlip):
+        monthlyUntaxedRoof = Utils.getMonthlyValueFor(SalarySlipConstants.TaxPayable.UNTAXED_ROOF)
         salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance + monthlyUntaxedRoof
         salarySlip.taxableIncome = round(salarySlip.monthlyGrossSalary - salarySlip.taxFreeAllowance, 2)
 
-    @classmethod
-    def __handleHigherEarnerExtraContribution(cls, annualGrossSalary, salarySlip):
-        extraTaxedAmount = TaxHandler.getHigherEarnerTaxedAmountFor(annualGrossSalary)
-        salarySlip.taxPayable = TaxHandler.applyTaxPayableHigherRateToAmount(extraTaxedAmount)
-        salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance - TaxHandler.getMonthlyValueFor(extraTaxedAmount)
+    def __handleHigherEarnerExtraContribution(self, annualGrossSalary, salarySlip):
+        extraTaxedAmount = self.taxHandler.getHigherEarnerTaxedAmountFor(annualGrossSalary)
+        salarySlip.taxPayable = self.taxHandler.taxPayable.applyHigherRateTo(extraTaxedAmount)
+        salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance - Utils.getMonthlyValueFor(extraTaxedAmount)

@@ -5,6 +5,10 @@ from sample.SalarySlip import SalarySlip
 from sample.SalarySlipGenerator import SalarySlipGenerator
 
 
+@pytest.fixture(autouse=True)
+def salarySlipGenerator():
+    return SalarySlipGenerator()
+
 # iteration 1
 
 
@@ -68,43 +72,43 @@ def getSalarySlipAnnualSalary150000(employee):
     return SalarySlip(employee, 12500, 527.73, 0, 12500, 4466.67)
 
 
-def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary5000():
+def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary5000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary5000()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary5000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
 
-def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary9060():
+def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary9060(salarySlipGenerator):
     employee = getEmployeeAnnualSalary9060()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary9060(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
 
-def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary12000():
+def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary12000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary12000()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary12000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
 
-def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary45000():
+def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary45000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary45000()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary45000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
 
-def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary101000():
+def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary101000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary101000()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary101000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
 
-def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary150000():
+def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary150000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary150000()
-    salarySlip = SalarySlipGenerator.generateFor(employee)
+    salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary150000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)

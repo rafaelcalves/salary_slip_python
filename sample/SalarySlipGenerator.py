@@ -36,7 +36,7 @@ class SalarySlipGenerator:
 
     def __handleTaxPayable(self, salarySlip, annualGrossSalary):
         if self.contributionsHandler.taxPayable.isTaxed(annualGrossSalary):
-            self.applyHigherEarner(annualGrossSalary, salarySlip)
+            self.__applyHigherEarner(annualGrossSalary, salarySlip)
             if self.contributionsHandler.aditionalRate.isTaxed(annualGrossSalary):
                 taxedAmount = self.contributionsHandler.aditionalRate.getTaxedAmountFor(annualGrossSalary)
                 salarySlip.taxPayable = salarySlip.taxPayable + self.contributionsHandler.aditionalRate.applyLowerRateTo(
@@ -53,7 +53,7 @@ class SalarySlipGenerator:
                 taxedAmount = self.contributionsHandler.taxPayable.getTaxedAmountFor(annualGrossSalary)
                 self.__applyTaxPayableToSalarySlip(salarySlip, taxedAmount)
 
-    def applyHigherEarner(self, annualGrossSalary, salarySlip):
+    def __applyHigherEarner(self, annualGrossSalary, salarySlip):
         if self.contributionsHandler.higherEarner.isTaxed(annualGrossSalary):
             self.__handleHigherEarnerExtraContribution(annualGrossSalary, salarySlip)
 

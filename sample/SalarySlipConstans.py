@@ -15,3 +15,7 @@ class SalarySlipConstants:
     class HigherEarner:
         EXTRA_BASE_LIMIT = 122000
         RATE_ROOF = 100000
+
+    class AditionalRate:
+        RATE_ROOF = 150000
+        CONTRIBUTION = .45

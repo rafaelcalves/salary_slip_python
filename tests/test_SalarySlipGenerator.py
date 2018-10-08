@@ -9,6 +9,7 @@ from sample.SalarySlipGenerator import SalarySlipGenerator
 def salarySlipGenerator():
     return SalarySlipGenerator()
 
+
 # iteration 1
 
 
@@ -72,6 +73,17 @@ def getSalarySlipAnnualSalary150000(employee):
     return SalarySlip(employee, 12500, 527.73, 0, 12500, 4466.67)
 
 
+# iteration 6
+
+
+def getEmployeeAnnualSalary160000():
+    return Employee(12345, "John J Doe", 160000)
+
+
+def getSalarySlipAnnualSalary160000(employee):
+    return SalarySlip(employee, 13333.33, 544.40, 0, 13333.33, 4841.67)
+
+
 def test_salarySlipShouldBeEqualsToSalarySlipAnnualSalary5000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary5000()
     salarySlip = salarySlipGenerator.generateFor(employee)
@@ -111,4 +123,10 @@ def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary150000(salarySlipGenera
     employee = getEmployeeAnnualSalary150000()
     salarySlip = salarySlipGenerator.generateFor(employee)
     expectedSalarySlip = getSalarySlipAnnualSalary150000(employee)
+    assert salarySlip.__eq__(expectedSalarySlip)
+
+def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary160000(salarySlipGenerator):
+    employee = getEmployeeAnnualSalary160000()
+    salarySlip = salarySlipGenerator.generateFor(employee)
+    expectedSalarySlip = getSalarySlipAnnualSalary160000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)

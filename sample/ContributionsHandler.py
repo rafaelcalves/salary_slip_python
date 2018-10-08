@@ -15,3 +15,5 @@ class ContributionsHandler:
         self.higherRate = Contribution(SalarySlipConstants.HIGHER_RATE_ROOF)
         self.higherEarner = HigherEarnerContribution(SalarySlipConstants.HigherEarner.RATE_ROOF,
                                                      SalarySlipConstants.HigherEarner.EXTRA_BASE_LIMIT)
+        self.aditionalRate = Contribution(SalarySlipConstants.AditionalRate.RATE_ROOF,
+                                          SalarySlipConstants.AditionalRate.CONTRIBUTION)

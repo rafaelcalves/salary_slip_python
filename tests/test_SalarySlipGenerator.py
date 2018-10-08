@@ -125,6 +125,7 @@ def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary150000(salarySlipGenera
     expectedSalarySlip = getSalarySlipAnnualSalary150000(employee)
     assert salarySlip.__eq__(expectedSalarySlip)
 
+
 def test_salaeySlipShouldBeEqualsToSalarySlipAnnualSalary160000(salarySlipGenerator):
     employee = getEmployeeAnnualSalary160000()
     salarySlip = salarySlipGenerator.generateFor(employee)

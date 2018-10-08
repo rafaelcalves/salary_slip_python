@@ -1,5 +1,6 @@
 class SalarySlip:
-    def __init__(self, employee, monthlyGrossSalary=0, nationalInsurance=0, taxFreeAllowance=0, taxableIncome=0, taxPayable=0):
+    def __init__(self, employee, monthlyGrossSalary=0, nationalInsurance=0, taxFreeAllowance=0, taxableIncome=0,
+                 taxPayable=0):
         self.employee = employee
         self.monthlyGrossSalary = monthlyGrossSalary
         self.nationalInsurance = nationalInsurance
@@ -10,11 +11,11 @@ class SalarySlip:
     def __eq__(self, object):
         if isinstance(object, SalarySlip):
             if object.monthlyGrossSalary == self.monthlyGrossSalary \
-                and object.nationalInsurance == self.nationalInsurance \
-                and object.taxFreeAllowance == self.taxFreeAllowance \
-                and object.taxableIncome ==  self.taxableIncome \
-                and object.taxPayable == self.taxPayable\
-                and object.employee.grossSalary == self.employee.grossSalary:
+                    and object.nationalInsurance == self.nationalInsurance \
+                    and object.taxFreeAllowance == self.taxFreeAllowance \
+                    and object.taxableIncome == self.taxableIncome \
+                    and object.taxPayable == self.taxPayable \
+                    and object.employee.grossSalary == self.employee.grossSalary:
                 return True
         return False
 

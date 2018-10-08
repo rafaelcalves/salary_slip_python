@@ -1,5 +1,6 @@
 from sample.Contribution import Contribution
 
+
 class HigherEarnerContribution(Contribution):
 
     def __init__(self, untaxedRoof, extraBaseLimit):

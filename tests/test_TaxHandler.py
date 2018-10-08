@@ -1,2 +1,0 @@
-import pytest
-from sample.ContributionsHandler import ContributionsHandler

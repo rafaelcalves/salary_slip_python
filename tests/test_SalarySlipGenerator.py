@@ -1,7 +1,7 @@
 import pytest
 
-from sample.Employee import Employee
-from sample.SalarySlip import SalarySlip
+from sample.tuples.Employee import Employee
+from sample.tuples.SalarySlip import SalarySlip
 from sample.SalarySlipGenerator import SalarySlipGenerator
 
 

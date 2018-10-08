@@ -1,4 +1,4 @@
-from sample.SalarySlipConstans import SalarySlipConstants
+from sample.Constans import SalarySlipConstants
 
 
 class Utils:

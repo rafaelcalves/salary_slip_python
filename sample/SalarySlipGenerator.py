@@ -1,6 +1,6 @@
-from sample.SalarySlip import SalarySlip
+from sample.tuples.SalarySlip import SalarySlip
 from sample.ContributionsHandler import ContributionsHandler
-from sample.SalarySlipConstans import SalarySlipConstants
+from sample.Constans import SalarySlipConstants
 from sample.Utils import Utils
 
 

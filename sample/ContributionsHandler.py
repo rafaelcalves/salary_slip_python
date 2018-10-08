@@ -1,4 +1,4 @@
-from sample.SalarySlipConstans import SalarySlipConstants
+from sample.Constans import SalarySlipConstants
 from sample.Contribution import Contribution
 from sample.HigherEarnerContribution import HigherEarnerContribution
 

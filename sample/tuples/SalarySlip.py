@@ -13,9 +13,10 @@ class SalarySlip:
                 and object.nationalInsurance == self.nationalInsurance \
                 and object.taxFreeAllowance == self.taxFreeAllowance \
                 and object.taxableIncome ==  self.taxableIncome \
-                and object.taxPayable == self.taxPayable:
+                and object.taxPayable == self.taxPayable\
+                and object.employee.grossSalary == self.employee.grossSalary:
                 return True
         return False
 
     def __ne__(self, object):
-        return not self.__eq__()
+        return not self.__eq__(object)

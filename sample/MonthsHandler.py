@@ -1,7 +1,7 @@
 from sample.Constans import SalarySlipConstants
 
 
-class Utils:
+class MonthsHandler:
 
     @classmethod
     def getMonthlyValueFor(cls, value):

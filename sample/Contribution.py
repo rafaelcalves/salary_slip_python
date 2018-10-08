@@ -1,4 +1,4 @@
-from sample.Utils import Utils
+from sample.MonthsHandler import MonthsHandler
 
 
 class Contribution:
@@ -16,7 +16,7 @@ class Contribution:
     @staticmethod
     def __applyTaxToAmount(amount, tax):
         taxedAmount = amount * tax
-        return Utils.getMonthlyValueFor(taxedAmount)
+        return MonthsHandler.getMonthlyValueFor(taxedAmount)
 
     def getTaxedAmountFor(self, annualGrossSalary):
         return annualGrossSalary - self.untaxedRoof

@@ -1,7 +1,7 @@
-from sample.tuples.SalarySlip import SalarySlip
-from sample.ContributionsHandler import ContributionsHandler
 from sample.Constans import SalarySlipConstants
-from sample.Utils import Utils
+from sample.ContributionsHandler import ContributionsHandler
+from sample.MonthsHandler import MonthsHandler
+from sample.tuples.SalarySlip import SalarySlip
 
 
 class SalarySlipGenerator:
@@ -17,7 +17,7 @@ class SalarySlipGenerator:
         return salarySlip
 
     def __calculateMonthlySalary(self, employee):
-        return Utils.getMonthlyValueFor(employee.grossSalary)
+        return MonthsHandler.getMonthlyValueFor(employee.grossSalary)
 
     def __handleNationalInsurance(self, salarySlip, annualGrossSalary):
         if self.contributionsHandler.nationalInsurance.isTaxed(annualGrossSalary):
@@ -63,11 +63,11 @@ class SalarySlipGenerator:
         self.__applyResultantTaxPayableTaxesTo(salarySlip)
 
     def __applyResultantTaxPayableTaxesTo(self, salarySlip):
-        monthlyUntaxedRoof = Utils.getMonthlyValueFor(SalarySlipConstants.TaxPayable.UNTAXED_ROOF)
+        monthlyUntaxedRoof = MonthsHandler.getMonthlyValueFor(SalarySlipConstants.TaxPayable.UNTAXED_ROOF)
         salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance + monthlyUntaxedRoof
         salarySlip.taxableIncome = round(salarySlip.monthlyGrossSalary - salarySlip.taxFreeAllowance, 2)
 
     def __handleHigherEarnerExtraContribution(self, annualGrossSalary, salarySlip):
         extraTaxedAmount = self.contributionsHandler.higherEarner.getTaxedAmountFor(annualGrossSalary)
         salarySlip.taxPayable = self.contributionsHandler.taxPayable.applyHigherRateTo(extraTaxedAmount)
-        salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance - Utils.getMonthlyValueFor(extraTaxedAmount)
+        salarySlip.taxFreeAllowance = salarySlip.taxFreeAllowance - MonthsHandler.getMonthlyValueFor(extraTaxedAmount)

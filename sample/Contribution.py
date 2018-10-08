@@ -1,8 +1,8 @@
 from sample.Utils import Utils
 
 
-class ContributionHandler:
-    def __init__(self, lowerRateContribution, higherRateContribution, untaxedRoof):
+class Contribution:
+    def __init__(self, untaxedRoof, lowerRateContribution=0, higherRateContribution=0):
         self.lowerRateContribution = lowerRateContribution
         self.higherRateContribution = higherRateContribution
         self.untaxedRoof = untaxedRoof

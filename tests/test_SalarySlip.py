@@ -60,6 +60,10 @@ def test_salarySlipShouldBeNotEqualsIfMonthlySalaryIsDifferent(salarySlipBaseEmp
     assert salarySlipBaseEmployee.__ne__(salarySlipDifferentMonthlySalary)
 
 
+def test_salarySlipShouldBeNotEqualsIfNationalInsuranceIsDifferent(salarySlipBaseEmployee):
+    salarySlipDifferentNationalInsurance = getDifferentNationalInsurance(getBaseEmployee())
+    assert salarySlipBaseEmployee.__ne__(salarySlipDifferentNationalInsurance)
+
 def test_salarySlipShouldBeNotEqualsIfTaxFreeAllowanceIsDifferent(salarySlipBaseEmployee):
     salarySlipDifferentTaxFreeAllowance = getDifferentTaxFreeAllowance(getBaseEmployee())
     assert salarySlipBaseEmployee.__ne__(salarySlipDifferentTaxFreeAllowance)
